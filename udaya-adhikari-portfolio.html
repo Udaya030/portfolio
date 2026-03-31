@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Udaya Bahadur Adhikari – Mobile Development Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300..700&display=swap" rel="stylesheet">
+<style>
+/* === TOKENS === */
+:root,[data-theme="light"]{
+  --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
+  --color-surface-offset:#f3f0ec;--color-surface-dynamic:#e6e4df;
+  --color-divider:#dcd9d5;--color-border:#d4d1ca;
+  --color-text:#28251d;--color-text-muted:#7a7974;--color-text-faint:#bab9b4;
+  --color-primary:#01696f;--color-primary-hover:#0c4e54;
+  --color-primary-highlight:#cedcd8;
+  --font-display:'Instrument Serif',Georgia,serif;
+  --font-body:'Work Sans','Helvetica Neue',sans-serif;
+  --text-xs:clamp(0.75rem,0.7rem + 0.25vw,0.875rem);
+  --text-sm:clamp(0.875rem,0.8rem + 0.35vw,1rem);
+  --text-base:clamp(1rem,0.95rem + 0.25vw,1.125rem);
+  --text-lg:clamp(1.125rem,1rem + 0.75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+  --text-3xl:clamp(2.5rem,1rem + 4vw,5rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --space-12:3rem;--space-16:4rem;--space-20:5rem;--space-24:6rem;
+  --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;
+  --radius-full:9999px;
+  --shadow-sm:0 1px 2px oklch(0.2 0.01 80 / 0.06);
+  --shadow-md:0 4px 12px oklch(0.2 0.01 80 / 0.08);
+  --shadow-lg:0 12px 32px oklch(0.2 0.01 80 / 0.12);
+  --transition:180ms cubic-bezier(0.16,1,0.3,1);
+  --content-narrow:640px;--content-default:960px;--content-wide:1200px;
+}
+[data-theme="dark"]{
+  --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+  --color-surface-offset:#1d1c1a;--color-surface-dynamic:#2d2c2a;
+  --color-divider:#262523;--color-border:#393836;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-hover:#227f8b;
+  --color-primary-highlight:#313b3b;
+  --shadow-sm:0 1px 2px oklch(0 0 0 / 0.2);
+  --shadow-md:0 4px 12px oklch(0 0 0 / 0.3);
+  --shadow-lg:0 12px 32px oklch(0 0 0 / 0.4);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+  --color-surface-offset:#1d1c1a;--color-surface-dynamic:#2d2c2a;
+  --color-divider:#262523;--color-border:#393836;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-hover:#227f8b;--color-primary-highlight:#313b3b;
+}}
+/* === BASE === */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:5rem;}
+body{min-height:100dvh;line-height:1.6;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);}
+img,picture,video,canvas,svg{display:block;max-width:100%;height:auto;}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.15;}
+p,li{text-wrap:pretty;max-width:70ch;}
+a,button,[role="button"]{transition:color var(--transition),background var(--transition),border-color var(--transition),box-shadow var(--transition);}
+button{cursor:pointer;background:none;border:none;}
+::selection{background:oklch(from var(--color-primary) l c h / 0.2);color:var(--color-text);}
+:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm);}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+
+/* === NAV === */
+nav{position:sticky;top:0;z-index:100;background:color-mix(in oklab,var(--color-bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid oklch(from var(--color-text) l c h / 0.08);}
+.nav-inner{max-width:var(--content-wide);margin-inline:auto;padding:var(--space-4) var(--space-6);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);}
+.nav-logo{display:flex;align-items:center;gap:var(--space-3);text-decoration:none;color:var(--color-text);}
+.nav-logo-mark{width:36px;height:36px;flex-shrink:0;}
+.nav-name{font-family:var(--font-display);font-size:var(--text-lg);font-style:italic;}
+.nav-links{display:flex;align-items:center;gap:var(--space-6);list-style:none;}
+.nav-links a{text-decoration:none;font-size:var(--text-sm);color:var(--color-text-muted);font-weight:500;}
+.nav-links a:hover{color:var(--color-primary);}
+.nav-actions{display:flex;align-items:center;gap:var(--space-3);}
+.theme-toggle{width:36px;height:36px;border-radius:var(--radius-full);color:var(--color-text-muted);display:flex;align-items:center;justify-content:center;}
+.theme-toggle:hover{color:var(--color-primary);background:var(--color-surface-offset);}
+.btn-hire{padding:var(--space-2) var(--space-5);background:var(--color-primary);color:#fff;border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;text-decoration:none;}
+.btn-hire:hover{background:var(--color-primary-hover);}
+.hamburger{display:none;width:36px;height:36px;align-items:center;justify-content:center;color:var(--color-text);}
+@media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}}
+
+/* === HERO === */
+.hero{min-height:92vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:clamp(var(--space-16),8vw,var(--space-24)) var(--space-6);}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,oklch(from var(--color-primary) l c h / 0.07) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:var(--content-wide);margin-inline:auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:var(--space-16);align-items:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:var(--space-2);padding:var(--space-1) var(--space-4);background:var(--color-primary-highlight);color:var(--color-primary);border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--space-6);}
+.hero h1{font-family:var(--font-display);font-size:var(--text-3xl);font-style:italic;color:var(--color-text);margin-bottom:var(--space-4);}
+.hero-subtitle{font-size:var(--text-lg);color:var(--color-text-muted);margin-bottom:var(--space-8);font-weight:400;}
+.hero-ctas{display:flex;gap:var(--space-4);flex-wrap:wrap;}
+.btn-primary{padding:var(--space-3) var(--space-8);background:var(--color-primary);color:#fff;border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:var(--space-2);}
+.btn-primary:hover{background:var(--color-primary-hover);}
+.btn-outline{padding:var(--space-3) var(--space-8);border:1.5px solid var(--color-border);color:var(--color-text);border-radius:var(--radius-full);font-size:var(--text-sm);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:var(--space-2);}
+.btn-outline:hover{border-color:var(--color-primary);color:var(--color-primary);}
+.hero-card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / 0.08);border-radius:var(--radius-xl);padding:var(--space-8);box-shadow:var(--shadow-lg);display:flex;flex-direction:column;gap:var(--space-6);}
+.hero-avatar{width:80px;height:80px;border-radius:var(--radius-full);background:var(--color-primary-highlight);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:var(--text-xl);font-style:italic;color:var(--color-primary);}
+.hero-card-name{font-family:var(--font-display);font-size:var(--text-xl);font-style:italic;}
+.hero-card-title{font-size:var(--text-sm);color:var(--color-text-muted);}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
+.stat-item{background:var(--color-surface-offset);border-radius:var(--radius-lg);padding:var(--space-4);}
+.stat-num{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-primary);}
+.stat-label{font-size:var(--text-xs);color:var(--color-text-muted);}
+.skill-chips{display:flex;flex-wrap:wrap;gap:var(--space-2);}
+.chip{padding:var(--space-1) var(--space-3);background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:var(--radius-full);font-size:var(--text-xs);color:var(--color-text-muted);font-weight:500;}
+@media(max-width:768px){.hero-inner{grid-template-columns:1fr;}.hero h1{font-size:var(--text-2xl);}
+.hero-card{order:-1;}.hero-stats{grid-template-columns:repeat(4,1fr);}
+.stat-num{font-size:var(--text-lg);}}
+
+/* === SECTIONS === */
+.section{padding:clamp(var(--space-16),8vw,var(--space-24)) var(--space-6);}
+.section-alt{background:var(--color-surface);}
+.section-inner{max-width:var(--content-default);margin-inline:auto;}
+.section-inner-wide{max-width:var(--content-wide);margin-inline:auto;}
+.section-label{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--color-primary);margin-bottom:var(--space-4);}
+.section-title{font-family:var(--font-display);font-size:var(--text-2xl);font-style:italic;margin-bottom:var(--space-4);}
+.section-desc{color:var(--color-text-muted);font-size:var(--text-base);margin-bottom:var(--space-12);}
+.divider{border:none;border-top:1px solid var(--color-divider);margin:0;}
+
+/* === EDUCATION === */
+.edu-card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / 0.08);border-radius:var(--radius-xl);padding:var(--space-8);box-shadow:var(--shadow-sm);display:grid;grid-template-columns:auto 1fr;gap:var(--space-6);align-items:start;}
+.edu-icon{width:56px;height:56px;background:var(--color-primary-highlight);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;color:var(--color-primary);}
+.edu-meta{font-size:var(--text-xs);color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:var(--space-2);}
+.edu-degree{font-family:var(--font-display);font-size:var(--text-xl);font-style:italic;margin-bottom:var(--space-2);}
+.edu-school{font-weight:600;color:var(--color-primary);margin-bottom:var(--space-4);}
+.edu-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-4);}
+@media(max-width:600px){.edu-card{grid-template-columns:1fr;}.edu-icon{display:none;}}
+
+/* === SKILLS === */
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);}
+.skill-group{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / 0.08);border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-sm);}
+.skill-group-title{font-weight:700;font-size:var(--text-sm);text-transform:uppercase;letter-spacing:.08em;color:var(--color-primary);margin-bottom:var(--space-5);}
+.skill-item{display:flex;flex-direction:column;gap:var(--space-1);margin-bottom:var(--space-4);}
+.skill-row{display:flex;justify-content:space-between;align-items:center;}
+.skill-name{font-size:var(--text-sm);font-weight:500;}
+.skill-bar-track{height:5px;background:var(--color-surface-dynamic);border-radius:var(--radius-full);overflow:hidden;margin-top:var(--space-1);}
+.skill-bar-fill{height:100%;background:var(--color-primary);border-radius:var(--radius-full);}
+.skill-note{font-size:var(--text-xs);color:var(--color-text-muted);}
+.soft-skill-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-4);}
+.soft-skill-list li{display:flex;gap:var(--space-3);align-items:flex-start;font-size:var(--text-sm);}
+.soft-dot{width:8px;height:8px;border-radius:var(--radius-full);background:var(--color-primary);flex-shrink:0;margin-top:.35em;}
+@media(max-width:700px){.skills-grid{grid-template-columns:1fr;}}
+
+/* === PROJECTS === */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:var(--space-6);}
+.project-card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / 0.08);border-radius:var(--radius-xl);padding:var(--space-6);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:var(--space-4);transition:box-shadow var(--transition),transform var(--transition);}
+.project-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px);}
+.project-num{font-family:var(--font-display);font-size:var(--text-2xl);font-style:italic;color:var(--color-primary);opacity:.3;line-height:1;}
+.project-title{font-family:var(--font-display);font-size:var(--text-xl);font-style:italic;}
+.project-desc{font-size:var(--text-sm);color:var(--color-text-muted);flex:1;}
+.project-meta{display:flex;flex-direction:column;gap:var(--space-3);}
+.project-meta-row{display:flex;flex-direction:column;gap:var(--space-1);}
+.project-meta-label{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-faint);}
+.project-meta-value{font-size:var(--text-sm);}
+.project-tech{display:flex;flex-wrap:wrap;gap:var(--space-1);}
+.project-tech span{padding:2px 10px;background:var(--color-primary-highlight);color:var(--color-primary);border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:500;}
+
+/* === REFLECTION === */
+.reflection-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);}
+.reflection-block{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / 0.08);border-radius:var(--radius-xl);padding:var(--space-6);}
+.reflection-block.featured{background:var(--color-primary);color:#fff;grid-column:1/-1;}
+.reflection-block.featured .reflection-q{color:rgba(255,255,255,.7);}
+.reflection-q{font-size:var(--text-xs);font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--color-primary);margin-bottom:var(--space-3);}
+.reflection-a{font-size:var(--text-sm);line-height:1.7;}
+@media(max-width:700px){.reflection-grid{grid-template-columns:1fr;}.reflection-block.featured{grid-column:1;}}
+
+/* === CAREER === */
+.career-inner{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12);align-items:center;}
+.career-goals{list-style:none;display:flex;flex-direction:column;gap:var(--space-5);}
+.career-goal-item{display:flex;gap:var(--space-4);align-items:flex-start;}
+.goal-icon{width:40px;height:40px;background:var(--color-primary-highlight);color:var(--color-primary);border-radius:var(--radius-lg);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.goal-text strong{display:block;font-weight:600;margin-bottom:var(--space-1);}
+.goal-text span{font-size:var(--text-sm);color:var(--color-text-muted);}
+.career-quote{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / 0.08);border-radius:var(--radius-xl);padding:var(--space-8);box-shadow:var(--shadow-md);position:relative;}
+.career-quote blockquote{font-family:var(--font-display);font-size:var(--text-xl);font-style:italic;line-height:1.5;color:var(--color-text);}
+.career-quote cite{display:block;margin-top:var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);font-style:normal;}
+@media(max-width:700px){.career-inner{grid-template-columns:1fr;}}
+
+/* === CONTACT === */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);}
+.contact-card{background:var(--color-surface);border:1px solid oklch(from var(--color-text) l c h / 0.08);border-radius:var(--radius-xl);padding:var(--space-6);display:flex;align-items:center;gap:var(--space-4);box-shadow:var(--shadow-sm);}
+.contact-icon{width:44px;height:44px;background:var(--color-primary-highlight);color:var(--color-primary);border-radius:var(--radius-lg);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.contact-label{font-size:var(--text-xs);color:var(--color-text-muted);text-transform:uppercase;letter-spacing:.06em;}
+.contact-value{font-size:var(--text-sm);font-weight:500;}
+.contact-value a{color:var(--color-primary);text-decoration:none;}
+.contact-value a:hover{text-decoration:underline;}
+@media(max-width:700px){.contact-grid{grid-template-columns:1fr;}}
+
+/* === FOOTER === */
+footer{padding:var(--space-8) var(--space-6);border-top:1px solid var(--color-divider);text-align:center;font-size:var(--text-xs);color:var(--color-text-faint);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg class="nav-logo-mark" viewBox="0 0 36 36" fill="none" aria-label="UBA Logo">
+        <rect width="36" height="36" rx="10" fill="var(--color-primary)"/>
+        <text x="18" y="25" text-anchor="middle" font-family="Georgia,serif" font-size="18" font-style="italic" fill="white">U</text>
+      </svg>
+      <span class="nav-name">Udaya Adhikari</span>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#education">Education</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#reflection">Reflection</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="#contact" class="btn-hire">Hire Me</a>
+      <button class="hamburger" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg>
+        Available for internships &amp; part-time
+      </div>
+      <h1>Mobile Developer &amp; Software Engineering Student</h1>
+      <p class="hero-subtitle">2nd-year student at Metropolia UAS, Helsinki — building user-friendly apps and growing as a developer one project at a time.</p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">
+          View Projects
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/udaya-adhikari-b875893b7/" target="_blank" rel="noopener noreferrer" class="btn-outline">LinkedIn Profile</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-avatar">UA</div>
+      <div>
+        <div class="hero-card-name">Udaya Bahadur Adhikari</div>
+        <div class="hero-card-title">BSc Software Engineering (Mobile Development)</div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">2nd</div>
+          <div class="stat-label">Year of Study</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Projects Done</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">📍</div>
+          <div class="stat-label">Helsinki, FI</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">🎓</div>
+          <div class="stat-label">Metropolia UAS</div>
+        </div>
+      </div>
+      <div class="skill-chips">
+        <span class="chip">Mobile Dev</span>
+        <span class="chip">Git</span>
+        <span class="chip">REST APIs</span>
+        <span class="chip">UI/UX</span>
+        <span class="chip">Angular</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EDUCATION -->
+<section class="section" id="education">
+  <div class="section-inner">
+    <div class="section-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      Education
+    </div>
+    <h2 class="section-title">Academic Background</h2>
+    <div class="edu-card">
+      <div class="edu-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+      <div>
+        <div class="edu-meta">2024 – Present &nbsp;·&nbsp; Helsinki, Finland</div>
+        <div class="edu-degree">Bachelor of Engineering in Software Engineering</div>
+        <div class="edu-school">Metropolia University of Applied Sciences</div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-3);">
+          Currently in my 2nd year with a focus on <strong>Mobile Development</strong>. My studies cover mobile application development, software engineering principles, practical project work, UI/UX design basics, REST API integration, and version control. I learn by building — projects and teamwork are central to every course.
+        </p>
+        <div class="edu-tags">
+          <span class="chip">Mobile Development</span>
+          <span class="chip">Software Engineering</span>
+          <span class="chip">Project Work</span>
+          <span class="chip">Agile Teamwork</span>
+          <span class="chip">International Environment</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section class="section section-alt" id="skills">
+  <div class="section-inner-wide">
+    <div class="section-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Skills
+    </div>
+    <h2 class="section-title">What I Can Do</h2>
+    <p class="section-desc">A mix of technical and soft skills I have developed through coursework, projects, and independent learning.</p>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">⚙️ Technical Skills</div>
+        <div class="skill-item">
+          <div class="skill-row"><span class="skill-name">Mobile App Development</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:75%"></div></div>
+          <span class="skill-note">Building functional apps with clean UI for course projects</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-row"><span class="skill-name">Angular / JavaScript</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%"></div></div>
+          <span class="skill-note">Front-end development experience with components and routing</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-row"><span class="skill-name">REST API Integration</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:65%"></div></div>
+          <span class="skill-note">Connecting apps to online services and handling JSON data</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-row"><span class="skill-name">Git &amp; Version Control</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:70%"></div></div>
+          <span class="skill-note">Using GitHub for collaboration and code management</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-row"><span class="skill-name">UI/UX Design Basics</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:60%"></div></div>
+          <span class="skill-note">Designing readable, user-friendly interfaces for mobile screens</span>
+        </div>
+        <div class="skill-item">
+          <div class="skill-row"><span class="skill-name">Basic Testing &amp; Debugging</span></div>
+          <div class="skill-bar-track"><div class="skill-bar-fill" style="width:55%"></div></div>
+          <span class="skill-note">Manual testing, fixing bugs, and improving app reliability</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">🤝 Soft Skills</div>
+        <ul class="soft-skill-list">
+          <li>
+            <span class="soft-dot"></span>
+            <div>
+              <strong>Teamwork</strong>
+              <div class="skill-note">Collaborated on group projects at Metropolia with classmates from different countries, sharing tasks and supporting each other to meet deadlines.</div>
+            </div>
+          </li>
+          <li>
+            <span class="soft-dot"></span>
+            <div>
+              <strong>Communication</strong>
+              <div class="skill-note">Working in an international study environment has improved my ability to explain technical ideas clearly in English.</div>
+            </div>
+          </li>
+          <li>
+            <span class="soft-dot"></span>
+            <div>
+              <strong>Problem-Solving</strong>
+              <div class="skill-note">I research solutions, read documentation, and experiment until I find the right approach for each technical challenge.</div>
+            </div>
+          </li>
+          <li>
+            <span class="soft-dot"></span>
+            <div>
+              <strong>Time Management</strong>
+              <div class="skill-note">I manage multiple assignments and projects simultaneously while staying on top of study schedules and deadlines.</div>
+            </div>
+          </li>
+          <li>
+            <span class="soft-dot"></span>
+            <div>
+              <strong>Independent Learning</strong>
+              <div class="skill-note">I actively use online resources, tutorials, and AI tools to extend my knowledge beyond what is taught in class.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <div class="section-inner-wide">
+    <div class="section-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Projects
+    </div>
+    <h2 class="section-title">Things I Have Built</h2>
+    <p class="section-desc">Practical projects done during my studies — each one taught me something new.</p>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <div class="project-title">Student Task Manager</div>
+        <p class="project-desc">A mobile app that helps students manage daily tasks, assignments, and deadlines with reminders and a simple to-do interface.</p>
+        <div class="project-meta">
+          <div class="project-meta-row">
+            <span class="project-meta-label">My Role</span>
+            <span class="project-meta-value">UI design, task list logic, add/edit/delete operations</span>
+          </div>
+          <div class="project-meta-row">
+            <span class="project-meta-label">What I Learned</span>
+            <span class="project-meta-value">App structure, local data management, user-friendly screen design</span>
+          </div>
+          <div class="project-tech">
+            <span>Mobile Framework</span><span>Local Storage</span><span>UI Components</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <div class="project-title">Weather Info App</div>
+        <p class="project-desc">A mobile app that fetches and displays real-time weather data for any city using an online weather API with a clean, minimal layout.</p>
+        <div class="project-meta">
+          <div class="project-meta-row">
+            <span class="project-meta-label">My Role</span>
+            <span class="project-meta-value">API integration, JSON data handling, display layout</span>
+          </div>
+          <div class="project-meta-row">
+            <span class="project-meta-label">What I Learned</span>
+            <span class="project-meta-value">How apps communicate with web services and manage live data</span>
+          </div>
+          <div class="project-tech">
+            <span>REST API</span><span>JSON</span><span>Networking</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <div class="project-title">Campus Helper App</div>
+        <p class="project-desc">A group project app that gives students quick access to campus info, schedules, and key contacts — all in one simple place.</p>
+        <div class="project-meta">
+          <div class="project-meta-row">
+            <span class="project-meta-label">My Role</span>
+            <span class="project-meta-value">Feature planning, screen flow, building main pages</span>
+          </div>
+          <div class="project-meta-row">
+            <span class="project-meta-label">What I Learned</span>
+            <span class="project-meta-value">Planning for users, working in a team, multi-screen navigation</span>
+          </div>
+          <div class="project-tech">
+            <span>Navigation</span><span>Git</span><span>Teamwork</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">04</div>
+        <div class="project-title">Personal Finance Tracker</div>
+        <p class="project-desc">A solo practice app where users can log daily expenses and see a simple summary of their spending patterns over time.</p>
+        <div class="project-meta">
+          <div class="project-meta-row">
+            <span class="project-meta-label">My Role</span>
+            <span class="project-meta-value">Solo developer — full app from concept to working build</span>
+          </div>
+          <div class="project-meta-row">
+            <span class="project-meta-label">What I Learned</span>
+            <span class="project-meta-value">State management, data calculations, independent problem-solving</span>
+          </div>
+          <div class="project-tech">
+            <span>Forms</span><span>Data Logic</span><span>Storage</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- REFLECTION -->
+<section class="section section-alt" id="reflection">
+  <div class="section-inner-wide">
+    <div class="section-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Reflection
+    </div>
+    <h2 class="section-title">What I Have Learned</h2>
+    <p class="section-desc">Looking back on my growth from first year to second year at Metropolia.</p>
+    <div class="reflection-grid">
+      <div class="reflection-block featured">
+        <div class="reflection-q" style="color:rgba(255,255,255,.7)">Biggest Growth</div>
+        <p class="reflection-a" style="font-family:var(--font-display);font-size:var(--text-xl);font-style:italic;line-height:1.5;">"I have gone from writing my first lines of code to building complete apps that connect to real APIs and work for real users."</p>
+      </div>
+      <div class="reflection-block">
+        <div class="reflection-q">From 1st to 2nd Year</div>
+        <p class="reflection-a">In first year I learned the basics of programming and software development. Now in second year, I can plan, build, and test a full mobile application — and I understand why each decision matters, not just how to write the code.</p>
+      </div>
+      <div class="reflection-block">
+        <div class="reflection-q">Most Challenging Topics</div>
+        <p class="reflection-a">API integration and understanding how data flows between a mobile app and a backend server were difficult at first. I overcame this by reading documentation carefully, testing step by step, and asking for help when needed.</p>
+      </div>
+      <div class="reflection-block">
+        <div class="reflection-q">Group Projects &amp; Teamwork</div>
+        <p class="reflection-a">Working in team projects taught me more than solo assignments. I improved my communication, learned to use Git for collaboration, and understood how to divide responsibilities fairly in a diverse team.</p>
+      </div>
+      <div class="reflection-block">
+        <div class="reflection-q">Studying in Finland</div>
+        <p class="reflection-a">Studying at Metropolia in an international environment has been a great experience. Working with classmates from different countries has improved my English, broadened my perspective, and shown me how to collaborate across cultural differences.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CAREER -->
+<section class="section" id="career">
+  <div class="section-inner-wide">
+    <div class="section-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Career Goal
+    </div>
+    <h2 class="section-title">Where I Am Headed</h2>
+    <div class="career-inner">
+      <ul class="career-goals">
+        <li class="career-goal-item">
+          <div class="goal-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <div class="goal-text">
+            <strong>Become a Mobile Developer</strong>
+            <span>My primary goal is to grow into a professional mobile or software developer who can build real, useful applications.</span>
+          </div>
+        </li>
+        <li class="career-goal-item">
+          <div class="goal-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <div class="goal-text">
+            <strong>Gain Real-World Experience</strong>
+            <span>I am actively looking for internships and part-time developer roles where I can apply my skills in real projects.</span>
+          </div>
+        </li>
+        <li class="career-goal-item">
+          <div class="goal-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="goal-text">
+            <strong>Learn Advanced Technologies</strong>
+            <span>Next I want to master modern mobile frameworks, backend integration, cloud services, and CI/CD for app publishing.</span>
+          </div>
+        </li>
+        <li class="career-goal-item">
+          <div class="goal-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div class="goal-text">
+            <strong>1–2 Year Plan</strong>
+            <span>Finish my degree with strong practical skills, complete personal projects, earn a developer certificate, and get hired as a junior developer in Finland.</span>
+          </div>
+        </li>
+      </ul>
+      <div class="career-quote">
+        <blockquote>"I want to build apps that solve real problems for real people — starting from Helsinki and growing from there."</blockquote>
+        <cite>— Udaya Bahadur Adhikari, Metropolia UAS 2026</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section class="section section-alt" id="contact">
+  <div class="section-inner">
+    <div class="section-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Contact
+    </div>
+    <h2 class="section-title">Get in Touch</h2>
+    <p class="section-desc">I am open to internship opportunities, part-time developer roles, and collaboration on interesting projects.</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Full Name</div>
+          <div class="contact-value">Udaya Bahadur Adhikari</div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Location</div>
+          <div class="contact-value">Helsinki, Finland</div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value"><a href="https://www.linkedin.com/in/udaya-adhikari-b875893b7/" target="_blank" rel="noopener noreferrer">linkedin.com/in/udaya-adhikari</a></div>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value"><a href="https://github.com/" target="_blank" rel="noopener noreferrer">Add your GitHub here</a></div>
+        </div>
+      </div>
+      <div class="contact-card" style="grid-column:1/-1;">
+        <div class="contact-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><a href="mailto:your.email@metropolia.fi">Add your email address here</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Udaya Bahadur Adhikari &nbsp;·&nbsp; Software Engineering Student, Metropolia UAS, Helsinki</p>
+</footer>
+
+<script>
+(function(){
+  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
+  let d=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  if(t){
+    t.innerHTML=d==='dark'
+      ?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      :'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    t.addEventListener('click',()=>{
+      d=d==='dark'?'light':'dark';
+      r.setAttribute('data-theme',d);
+      t.setAttribute('aria-label','Switch to '+(d==='dark'?'light':'dark')+' mode');
+      t.innerHTML=d==='dark'
+        ?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+        :'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    });
+  }
+})();
+</script>
+</body>
+</html>
